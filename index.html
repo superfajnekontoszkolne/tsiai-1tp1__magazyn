@@ -2,236 +2,213 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>Premium Blog - Lewandowski</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<title>Neon Control Hub</title>
 
 <style>
 body{
-    margin:0;
-    font-family:Arial;
-    background:#0b1220;
-    color:white;
+  margin:0;
+  font-family:Arial;
+  background:#050816;
+  color:#e5e7eb;
+  overflow-x:hidden;
+  transition:0.3s;
 }
 
 header{
-    padding:40px;
-    text-align:center;
-    background:linear-gradient(135deg,#1e3a8a,#0b1220);
-}
-
-.premium{
-    border:2px solid gold;
-    box-shadow:0 0 20px gold;
+  padding:40px;
+  text-align:center;
+  background:linear-gradient(135deg,#6366f1,#0ea5e9);
+  color:white;
 }
 
 .container{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:20px;
-    padding:20px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  padding:20px;
+  max-width:1100px;
+  margin:auto;
 }
 
 .card{
-    background:#111a2e;
-    padding:20px;
-    border-radius:12px;
-}
-
-input,textarea,button{
-    width:100%;
-    margin-top:10px;
-    padding:10px;
-    border-radius:8px;
-    border:none;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:20px;
+  border-radius:16px;
+  backdrop-filter:blur(10px);
+  box-shadow:0 0 20px rgba(0,0,0,0.5);
+  transition:0.3s;
 }
 
 button{
-    background:#3b82f6;
-    color:white;
-    cursor:pointer;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#22c55e;
+  color:black;
+  font-weight:bold;
+  margin-top:10px;
 }
 
-.comment{
-    background:#1b2a44;
-    padding:10px;
-    margin-top:10px;
-    border-radius:8px;
+.big{
+  font-size:28px;
+  font-weight:bold;
 }
 
-.admin{
-    color:gold;
-    font-weight:bold;
+.glow{
+  text-shadow:0 0 10px #22c55e,0 0 20px #22c55e;
 }
 
-.small{
-    opacity:0.7;
-    font-size:12px;
+.console{
+  background:black;
+  padding:10px;
+  height:200px;
+  overflow:auto;
+  font-family:monospace;
+  font-size:12px;
+  border-radius:10px;
+  color:#22c55e;
 }
+
+.energy{
+  height:10px;
+  background:#333;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.bar{
+  height:10px;
+  width:10%;
+  background:#22c55e;
+  transition:0.3s;
+}
+
+.glitch{
+  animation:glitch 0.3s infinite;
+}
+
+@keyframes glitch{
+  0%{transform:translate(0)}
+  20%{transform:translate(-2px,2px)}
+  40%{transform:translate(2px,-2px)}
+  60%{transform:translate(-1px,1px)}
+  80%{transform:translate(1px,-1px)}
+  100%{transform:translate(0)}
+}
+
+.light{
+  background:#f3f4f6;
+  color:#111827;
+}
+
+.neon{
+  background:#050816;
+}
+
 </style>
 </head>
 
 <body>
 
-<header class="premium" id="hero">
-    <h1>⚽ Robert Lewandowski Premium Blog</h1>
-    <p>Ekskluzywny fanblog + demo systemu</p>
+<header>
+  <h1>⚡ NEON CONTROL HUB</h1>
+  <p>Interakcyjny system UI / mini symulacja / dashboard</p>
+  <button onclick="toggleTheme()">Zmień tryb</button>
 </header>
 
 <div class="container">
 
-<!-- LEWA STRONA -->
+<!-- LEWY PANEL -->
 <div class="card">
-    <h2>Artykuł</h2>
-    <p>
-        Robert Lewandowski to jeden z najlepszych napastników w historii piłki nożnej.
-        Znany z niesamowitej skuteczności i inteligencji boiskowej.
-    </p>
+  <div class="big glow">SYSTEM STATUS</div>
 
-    <hr>
+  <p>Energia systemu</p>
+  <div class="energy">
+    <div class="bar" id="bar"></div>
+  </div>
 
-    <h2>Komentarze</h2>
-    <div id="comments"></div>
+  <button onclick="boost()">Zasil system ⚡</button>
 
-    <h3>Dodaj komentarz</h3>
-    <input id="text" placeholder="Twój komentarz">
-    <button onclick="addComment()">Dodaj</button>
+  <hr>
 
-    <button onclick="logout()">Wyloguj</button>
+  <h3>🧠 Losowy cytat</h3>
+  <p id="quote">Kliknij przycisk</p>
+  <button onclick="quote()">Nowy cytat</button>
 </div>
 
-<!-- PRAWA STRONA -->
+<!-- PRAWY PANEL -->
 <div class="card">
-    <h2>Login</h2>
+  <h3>💻 TERMINAL</h3>
 
-    <div id="loginBox">
-        <input id="user" placeholder="login">
-        <input id="pass" placeholder="hasło">
-        <button onclick="login()">Zaloguj</button>
-        <p class="small">demo: admin / admin</p>
-    </div>
+  <div class="console" id="console"></div>
 
-    <h2>Statystyki</h2>
-    <div id="stats"></div>
+  <button onclick="hack()">RUN SYSTEM CHECK</button>
+  <button onclick="clearConsole()">CLEAR</button>
 </div>
 
 </div>
 
 <script>
 
-/* -------------------------
-   SYSTEM LOGOWANIA (FAKE)
---------------------------*/
+let energy = 10;
 
-function login(){
-    const u = document.getElementById("user").value;
-    const p = document.getElementById("pass").value;
+function toggleTheme(){
+  document.body.classList.toggle("light");
+}
 
-    if(u==="admin" && p==="admin"){
-        localStorage.setItem("role","admin");
-        alert("Zalogowano jako ADMIN");
-    } else {
-        localStorage.setItem("role","user");
-        alert("Zalogowano jako USER");
+function boost(){
+  energy += 20;
+  if(energy > 100) energy = 100;
+
+  document.getElementById("bar").style.width = energy + "%";
+}
+
+const quotes = [
+  "System działa stabilnie.",
+  "Każdy błąd to nowa możliwość.",
+  "Kod to logika świata.",
+  "Nie ma limitów — są tylko błędy.",
+  "Technologia to nowa forma sztuki."
+];
+
+function quote(){
+  document.getElementById("quote").innerText =
+    quotes[Math.floor(Math.random()*quotes.length)];
+}
+
+function log(msg){
+  const c = document.getElementById("console");
+  c.innerHTML += ">> " + msg + "<br>";
+  c.scrollTop = c.scrollHeight;
+}
+
+function hack(){
+  document.body.classList.add("glitch");
+
+  let steps = [
+    "Łączenie z systemem...",
+    "Omijanie firewall...",
+    "Analiza danych...",
+    "Dostęp uzyskany ✔"
+  ];
+
+  let i = 0;
+
+  let interval = setInterval(()=>{
+    log(steps[i]);
+    i++;
+    if(i >= steps.length){
+      clearInterval(interval);
+      document.body.classList.remove("glitch");
     }
-
-    render();
+  },500);
 }
 
-function logout(){
-    localStorage.removeItem("role");
-    render();
+function clearConsole(){
+  document.getElementById("console").innerHTML = "";
 }
-
-/* -------------------------
-   KOMENTARZE (LOCAL STORAGE)
---------------------------*/
-
-function getComments(){
-    return JSON.parse(localStorage.getItem("comments") || "[]");
-}
-
-function saveComments(c){
-    localStorage.setItem("comments", JSON.stringify(c));
-}
-
-function addComment(){
-    const text = document.getElementById("text").value;
-    if(!text) return;
-
-    const role = localStorage.getItem("role") || "user";
-
-    const comments = getComments();
-    comments.push({
-        text,
-        role,
-        id:Date.now()
-    });
-
-    saveComments(comments);
-    document.getElementById("text").value="";
-    render();
-}
-
-function deleteComment(id){
-    let comments = getComments();
-    comments = comments.filter(c=>c.id!==id);
-    saveComments(comments);
-    render();
-}
-
-/* -------------------------
-   RENDER
---------------------------*/
-
-function render(){
-    const role = localStorage.getItem("role");
-    const box = document.getElementById("loginBox");
-
-    if(role){
-        box.innerHTML = `<p>Zalogowany: <b>${role}</b></p>`;
-    } else {
-        box.innerHTML = `
-        <input id="user" placeholder="login">
-        <input id="pass" placeholder="hasło">
-        <button onclick="login()">Zaloguj</button>
-        <p class="small">demo: admin / admin</p>`;
-    }
-
-    const comments = getComments();
-    const container = document.getElementById("comments");
-
-    container.innerHTML = comments.map(c=>`
-        <div class="comment">
-            <b class="${c.role==='admin'?'admin':''}">${c.role}</b>: ${c.text}
-            ${role==="admin" ? `<button onclick="deleteComment(${c.id})">Usuń</button>` : ""}
-        </div>
-    `).join("");
-
-    loadStats();
-}
-
-/* -------------------------
-   FAKE API STATYSTYK
---------------------------*/
-
-function loadStats(){
-    document.getElementById("stats").innerHTML = `
-        ⚽ Gole: 600+<br>
-        🏆 Trofea: 30+<br>
-        🇵🇱 Reprezentacja: Kapitan
-    `;
-}
-
-/* -------------------------
-   ANIMACJE GSAP
---------------------------*/
-
-gsap.from("#hero", {y:-50, opacity:0, duration:1});
-gsap.from(".card", {opacity:0, y:30, duration:1, stagger:0.2});
-
-/* INIT */
-render();
 
 </script>
 

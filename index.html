@@ -1,192 +1,238 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Blog: Robert Lewandowski</title>
+<meta charset="UTF-8">
+<title>Premium Blog - Lewandowski</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #0f172a;
-        color: #e2e8f0;
-    }
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0b1220;
+    color:white;
+}
 
-    header {
-        background: linear-gradient(135deg, #1e3a8a, #0f172a);
-        padding: 60px 20px;
-        text-align: center;
-    }
+header{
+    padding:40px;
+    text-align:center;
+    background:linear-gradient(135deg,#1e3a8a,#0b1220);
+}
 
-    header h1 {
-        font-size: 42px;
-        margin: 0;
-    }
+.premium{
+    border:2px solid gold;
+    box-shadow:0 0 20px gold;
+}
 
-    header p {
-        opacity: 0.8;
-    }
+.container{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+    padding:20px;
+}
 
-    .container {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 20px;
-        padding: 20px;
-        max-width: 1200px;
-        margin: auto;
-    }
+.card{
+    background:#111a2e;
+    padding:20px;
+    border-radius:12px;
+}
 
-    .card {
-        background: rgba(255,255,255,0.05);
-        padding: 20px;
-        border-radius: 16px;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
+input,textarea,button{
+    width:100%;
+    margin-top:10px;
+    padding:10px;
+    border-radius:8px;
+    border:none;
+}
 
-    h2 {
-        color: #60a5fa;
-    }
+button{
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
+}
 
-    .comment {
-        background: rgba(255,255,255,0.07);
-        padding: 10px;
-        margin-top: 10px;
-        border-radius: 10px;
-    }
+.comment{
+    background:#1b2a44;
+    padding:10px;
+    margin-top:10px;
+    border-radius:8px;
+}
 
-    input, textarea {
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-        border-radius: 8px;
-        border: none;
-        outline: none;
-    }
+.admin{
+    color:gold;
+    font-weight:bold;
+}
 
-    button {
-        margin-top: 10px;
-        padding: 10px 15px;
-        background: #3b82f6;
-        border: none;
-        color: white;
-        border-radius: 8px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background: #2563eb;
-    }
-
-    .sidebar {
-        font-size: 14px;
-        opacity: 0.9;
-    }
-
-    footer {
-        text-align: center;
-        padding: 20px;
-        opacity: 0.5;
-    }
+.small{
+    opacity:0.7;
+    font-size:12px;
+}
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>Blog o Robertcie Lewandowskim</h1>
-    <p>Kariera, rekordy i ciekawostki o jednym z najlepszych napastników świata</p>
+<header class="premium" id="hero">
+    <h1>⚽ Robert Lewandowski Premium Blog</h1>
+    <p>Ekskluzywny fanblog + demo systemu</p>
 </header>
 
 <div class="container">
 
-    <!-- ARTYKUŁ -->
-    <div class="card">
-        <h2>Legenda polskiej piłki</h2>
-        <p>
-            Robert Lewandowski to jeden z najbardziej utytułowanych napastników w historii piłki nożnej.
-            Znany z gry w klubach takich jak Bayern Monachium i FC Barcelona, zdobył setki bramek w karierze.
-        </p>
+<!-- LEWA STRONA -->
+<div class="card">
+    <h2>Artykuł</h2>
+    <p>
+        Robert Lewandowski to jeden z najlepszych napastników w historii piłki nożnej.
+        Znany z niesamowitej skuteczności i inteligencji boiskowej.
+    </p>
 
-        <p>
-            Jego styl gry łączy inteligencję boiskową, świetne ustawianie się oraz niesamowitą skuteczność.
-            Wielokrotnie zdobywał tytuły króla strzelców w Bundeslidze i La Liga.
-        </p>
+    <hr>
 
-        <h2>Komentarze (demo)</h2>
+    <h2>Komentarze</h2>
+    <div id="comments"></div>
 
-        <div id="comments"></div>
+    <h3>Dodaj komentarz</h3>
+    <input id="text" placeholder="Twój komentarz">
+    <button onclick="addComment()">Dodaj</button>
 
-        <h3>Dodaj komentarz</h3>
-        <input id="name" placeholder="Twoje imię"/>
-        <textarea id="text" placeholder="Twój komentarz"></textarea>
-        <button onclick="addComment()">Dodaj</button>
+    <button onclick="logout()">Wyloguj</button>
+</div>
+
+<!-- PRAWA STRONA -->
+<div class="card">
+    <h2>Login</h2>
+
+    <div id="loginBox">
+        <input id="user" placeholder="login">
+        <input id="pass" placeholder="hasło">
+        <button onclick="login()">Zaloguj</button>
+        <p class="small">demo: admin / admin</p>
     </div>
 
-    <!-- SIDEBAR -->
-    <div class="card sidebar">
-        <h2>Statystyki</h2>
-        <p>⚽ Bramki: 600+</p>
-        <p>🏆 Trofea: 30+</p>
-        <p>🇵🇱 Reprezentacja: Kapitan</p>
-
-        <h2>Fakty</h2>
-        <ul>
-            <li>Rekord Bundesliga 41 goli</li>
-            <li>Jeden z najlepszych strzelców XXI wieku</li>
-            <li>Złoty But Europy</li>
-        </ul>
-    </div>
+    <h2>Statystyki</h2>
+    <div id="stats"></div>
+</div>
 
 </div>
 
-<footer>
-    Strona fanowska — wszystkie komentarze są fikcyjne (demo)
-</footer>
-
 <script>
-const demoComments = [
-    {name:"Kuba", text:"Niesamowity zawodnik, inspiracja!"},
-    {name:"Asia", text:"Najlepszy polski piłkarz w historii."},
-    {name:"Marek", text:"Jego gra w Barcelonie to klasa światowa."}
-];
 
-function renderComments() {
-    const container = document.getElementById("comments");
-    container.innerHTML = "";
+/* -------------------------
+   SYSTEM LOGOWANIA (FAKE)
+--------------------------*/
 
-    const saved = JSON.parse(localStorage.getItem("comments") || "[]");
-    const all = [...demoComments, ...saved];
+function login(){
+    const u = document.getElementById("user").value;
+    const p = document.getElementById("pass").value;
 
-    all.forEach(c => {
-        const div = document.createElement("div");
-        div.className = "comment";
-        div.innerHTML = `<strong>${c.name}</strong><br>${c.text}`;
-        container.appendChild(div);
-    });
+    if(u==="admin" && p==="admin"){
+        localStorage.setItem("role","admin");
+        alert("Zalogowano jako ADMIN");
+    } else {
+        localStorage.setItem("role","user");
+        alert("Zalogowano jako USER");
+    }
+
+    render();
 }
 
-function addComment() {
-    const name = document.getElementById("name").value;
+function logout(){
+    localStorage.removeItem("role");
+    render();
+}
+
+/* -------------------------
+   KOMENTARZE (LOCAL STORAGE)
+--------------------------*/
+
+function getComments(){
+    return JSON.parse(localStorage.getItem("comments") || "[]");
+}
+
+function saveComments(c){
+    localStorage.setItem("comments", JSON.stringify(c));
+}
+
+function addComment(){
     const text = document.getElementById("text").value;
+    if(!text) return;
 
-    if(!name || !text) return;
+    const role = localStorage.getItem("role") || "user";
 
-    const newComment = {name, text};
+    const comments = getComments();
+    comments.push({
+        text,
+        role,
+        id:Date.now()
+    });
 
-    const saved = JSON.parse(localStorage.getItem("comments") || "[]");
-    saved.push(newComment);
-
-    localStorage.setItem("comments", JSON.stringify(saved));
-
-    document.getElementById("name").value = "";
-    document.getElementById("text").value = "";
-
-    renderComments();
+    saveComments(comments);
+    document.getElementById("text").value="";
+    render();
 }
 
-renderComments();
+function deleteComment(id){
+    let comments = getComments();
+    comments = comments.filter(c=>c.id!==id);
+    saveComments(comments);
+    render();
+}
+
+/* -------------------------
+   RENDER
+--------------------------*/
+
+function render(){
+    const role = localStorage.getItem("role");
+    const box = document.getElementById("loginBox");
+
+    if(role){
+        box.innerHTML = `<p>Zalogowany: <b>${role}</b></p>`;
+    } else {
+        box.innerHTML = `
+        <input id="user" placeholder="login">
+        <input id="pass" placeholder="hasło">
+        <button onclick="login()">Zaloguj</button>
+        <p class="small">demo: admin / admin</p>`;
+    }
+
+    const comments = getComments();
+    const container = document.getElementById("comments");
+
+    container.innerHTML = comments.map(c=>`
+        <div class="comment">
+            <b class="${c.role==='admin'?'admin':''}">${c.role}</b>: ${c.text}
+            ${role==="admin" ? `<button onclick="deleteComment(${c.id})">Usuń</button>` : ""}
+        </div>
+    `).join("");
+
+    loadStats();
+}
+
+/* -------------------------
+   FAKE API STATYSTYK
+--------------------------*/
+
+function loadStats(){
+    document.getElementById("stats").innerHTML = `
+        ⚽ Gole: 600+<br>
+        🏆 Trofea: 30+<br>
+        🇵🇱 Reprezentacja: Kapitan
+    `;
+}
+
+/* -------------------------
+   ANIMACJE GSAP
+--------------------------*/
+
+gsap.from("#hero", {y:-50, opacity:0, duration:1});
+gsap.from(".card", {opacity:0, y:30, duration:1, stagger:0.2});
+
+/* INIT */
+render();
+
 </script>
 
 </body>

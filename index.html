@@ -1,160 +1,192 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Advanced UI</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Blog: Robert Lewandowski</title>
 
-  <style>
-    :root {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --text: #e2e8f0;
-      --accent: #38bdf8;
-    }
-
-    body.light {
-      --bg: #f1f5f9;
-      --card: #ffffff;
-      --text: #0f172a;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui;
-    }
-
+<style>
     body {
-      background: var(--bg);
-      color: var(--text);
-      transition: 0.3s;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: #e2e8f0;
     }
 
     header {
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      backdrop-filter: blur(10px);
-      position: sticky;
-      top: 0;
+        background: linear-gradient(135deg, #1e3a8a, #0f172a);
+        padding: 60px 20px;
+        text-align: center;
     }
 
-    .btn {
-      padding: 10px 15px;
-      border: none;
-      background: var(--accent);
-      color: black;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.2s;
+    header h1 {
+        font-size: 42px;
+        margin: 0;
     }
 
-    .btn:hover {
-      transform: scale(1.05);
+    header p {
+        opacity: 0.8;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 20px;
+    .container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+        padding: 20px;
+        max-width: 1200px;
+        margin: auto;
     }
 
     .card {
-      background: var(--card);
-      padding: 20px;
-      border-radius: 15px;
-      transition: 0.3s;
-      transform: translateY(20px);
-      opacity: 0;
+        background: rgba(255,255,255,0.05);
+        padding: 20px;
+        border-radius: 16px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
-    .card.visible {
-      transform: translateY(0);
-      opacity: 1;
+    h2 {
+        color: #60a5fa;
     }
 
-    .card:hover {
-      transform: translateY(-5px) scale(1.02);
+    .comment {
+        background: rgba(255,255,255,0.07);
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 10px;
     }
 
-    .progress {
-      height: 10px;
-      background: #334155;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-top: 10px;
+    input, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 8px;
+        border: none;
+        outline: none;
     }
 
-    .progress-bar {
-      height: 100%;
-      width: 0;
-      background: var(--accent);
-      transition: width 1s ease;
+    button {
+        margin-top: 10px;
+        padding: 10px 15px;
+        background: #3b82f6;
+        border: none;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #2563eb;
+    }
+
+    .sidebar {
+        font-size: 14px;
+        opacity: 0.9;
     }
 
     footer {
-      text-align: center;
-      padding: 20px;
-      opacity: 0.6;
+        text-align: center;
+        padding: 20px;
+        opacity: 0.5;
     }
-  </style>
+</style>
 </head>
+
 <body>
 
 <header>
-  <h2>🚀 Advanced UI</h2>
-  <button class="btn" onclick="toggleTheme()">Tryb</button>
+    <h1>Blog o Robertcie Lewandowskim</h1>
+    <p>Kariera, rekordy i ciekawostki o jednym z najlepszych napastników świata</p>
 </header>
 
-<section class="grid" id="grid">
-  <div class="card">
-    <h3>Karta 1</h3>
-    <p>Nowoczesny komponent UI</p>
-    <div class="progress"><div class="progress-bar" data-value="80"></div></div>
-  </div>
+<div class="container">
 
-  <div class="card">
-    <h3>Karta 2</h3>
-    <p>Animacje + Intersection Observer</p>
-    <div class="progress"><div class="progress-bar" data-value="60"></div></div>
-  </div>
+    <!-- ARTYKUŁ -->
+    <div class="card">
+        <h2>Legenda polskiej piłki</h2>
+        <p>
+            Robert Lewandowski to jeden z najbardziej utytułowanych napastników w historii piłki nożnej.
+            Znany z gry w klubach takich jak Bayern Monachium i FC Barcelona, zdobył setki bramek w karierze.
+        </p>
 
-  <div class="card">
-    <h3>Karta 3</h3>
-    <p>Responsywny grid</p>
-    <div class="progress"><div class="progress-bar" data-value="95"></div></div>
-  </div>
-</section>
+        <p>
+            Jego styl gry łączy inteligencję boiskową, świetne ustawianie się oraz niesamowitą skuteczność.
+            Wielokrotnie zdobywał tytuły króla strzelców w Bundeslidze i La Liga.
+        </p>
+
+        <h2>Komentarze (demo)</h2>
+
+        <div id="comments"></div>
+
+        <h3>Dodaj komentarz</h3>
+        <input id="name" placeholder="Twoje imię"/>
+        <textarea id="text" placeholder="Twój komentarz"></textarea>
+        <button onclick="addComment()">Dodaj</button>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="card sidebar">
+        <h2>Statystyki</h2>
+        <p>⚽ Bramki: 600+</p>
+        <p>🏆 Trofea: 30+</p>
+        <p>🇵🇱 Reprezentacja: Kapitan</p>
+
+        <h2>Fakty</h2>
+        <ul>
+            <li>Rekord Bundesliga 41 goli</li>
+            <li>Jeden z najlepszych strzelców XXI wieku</li>
+            <li>Złoty But Europy</li>
+        </ul>
+    </div>
+
+</div>
 
 <footer>
-  <p>Made with ❤️ + JS</p>
+    Strona fanowska — wszystkie komentarze są fikcyjne (demo)
 </footer>
 
 <script>
-  function toggleTheme() {
-    document.body.classList.toggle("light");
-  }
+const demoComments = [
+    {name:"Kuba", text:"Niesamowity zawodnik, inspiracja!"},
+    {name:"Asia", text:"Najlepszy polski piłkarz w historii."},
+    {name:"Marek", text:"Jego gra w Barcelonie to klasa światowa."}
+];
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
+function renderComments() {
+    const container = document.getElementById("comments");
+    container.innerHTML = "";
 
-        const bar = entry.target.querySelector(".progress-bar");
-        if (bar) {
-          bar.style.width = bar.dataset.value + "%";
-        }
-      }
+    const saved = JSON.parse(localStorage.getItem("comments") || "[]");
+    const all = [...demoComments, ...saved];
+
+    all.forEach(c => {
+        const div = document.createElement("div");
+        div.className = "comment";
+        div.innerHTML = `<strong>${c.name}</strong><br>${c.text}`;
+        container.appendChild(div);
     });
-  });
+}
 
-  document.querySelectorAll(".card").forEach(card => {
-    observer.observe(card);
-  });
+function addComment() {
+    const name = document.getElementById("name").value;
+    const text = document.getElementById("text").value;
+
+    if(!name || !text) return;
+
+    const newComment = {name, text};
+
+    const saved = JSON.parse(localStorage.getItem("comments") || "[]");
+    saved.push(newComment);
+
+    localStorage.setItem("comments", JSON.stringify(saved));
+
+    document.getElementById("name").value = "";
+    document.getElementById("text").value = "";
+
+    renderComments();
+}
+
+renderComments();
 </script>
 
 </body>
